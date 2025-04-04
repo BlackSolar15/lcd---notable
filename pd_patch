@@ -1,0 +1,32 @@
+#include "mbed.h"
+
+unsigned char myChar;
+
+DigitalIn PB1(D5, PullUp);
+DigitalIn PB2(D6, PullUp);
+
+// main() runs in its own thread in the OS
+int main()
+{
+    while(true)
+    {
+        if (PB1==false)
+    
+        {
+            myChar=96;
+            printf("%c", myChar); //sound turns on when button is pressed
+            thread_sleep_for(1000);
+        }
+        else if (PB2==false)
+        {
+            myChar=97;
+            printf("%c", myChar); //sound turns off when button is pressed
+            thread_sleep_for(1000);
+        }
+    }
+
+while(true)
+    {
+        thread_sleep_for(500);
+    }
+}   
