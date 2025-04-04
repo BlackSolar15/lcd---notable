@@ -1,0 +1,52 @@
+#include "mbed.h"
+#include "TextLCD.h"
+ 
+TextLCD lcd(D8, D9, D4, D5, D6, D7); // rs, e, d4-d7
+ 
+#define BUTTON_PIN USER_BUTTON  // Replace with the actual pin if needed
+
+DigitalIn button(D1);  // Button as input
+
+void printMessage(const char *message) {
+    lcd.cls();          // Clear LCD
+    lcd.locate(0, 1); 
+    lcd.printf("%s", message);
+    //while (*message) {
+    //    while (button == 0);  // Wait for button press
+    //    lcd._putc();  // Print character
+    //    message++;
+    //    thread_sleep_for(200); // Debounce delay
+   // }
+}
+void countdown(int start) {
+    lcd.locate(14, 0);
+    lcd.printf("%d", 10);
+    thread_sleep_for(1000);
+    lcd.cls();
+    for (int i = start; i >= 0; --i)
+    {
+        lcd.locate(15, 0);
+        lcd.printf("%d", i);
+        thread_sleep_for(1000);     
+    }
+    lcd.cls();
+    lcd.locate(0, 0);
+    lcd.printf("Complete");
+}
+
+int main() {
+    lcd.cls();
+    lcd.locate(0, 0);
+    lcd.printf("Press to Print");
+    button.mode(PullUp);
+    while(true)
+    {
+        if(button==0){
+        printMessage("HELLO");
+        thread_sleep_for(1000);
+        lcd.cls();
+        int start;
+        countdown(9);
+        }
+    }
+    }
