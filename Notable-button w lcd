@@ -1,11 +1,15 @@
 #include "mbed.h"
 #include "TextLCD.h"
- 
+
+unsigned char myChar;
+
+DigitalIn button(D1);
+DigitalIn PB2(D2);
+
 TextLCD lcd(D8, D9, D4, D5, D6, D7); // rs, e, d4-d7
+UnbufferedSerial pc(USBTX, USBRX, 14400);  // USB serial to computer
  
 #define BUTTON_PIN USER_BUTTON  // Replace with the actual pin if needed
-
-DigitalIn button(D1);  // Button as input
 
 void printMessage(const char *message) {
     lcd.cls();          // Clear LCD
@@ -34,19 +38,32 @@ void countdown(int start) {
     lcd.printf("Complete");
 }
 
-int main() {
+//AnalogIn pot(A0);
+
+// main() runs in its own thread in the OS
+int main()
+{
     lcd.cls();
     lcd.locate(0, 0);
     lcd.printf("Press to Print");
     button.mode(PullUp);
+
     while(true)
     {
         if(button==0){
         printMessage("HELLO");
-        thread_sleep_for(1000);
-        lcd.cls();
+        myChar=96;  //value subject to change 
+        pc.write(&myChar, 1); //serial port takes 1 value to output in pd
+        thread_sleep_for(5000);
+          lcd.cls();
         int start;
         countdown(9);
         }
+
     }
+
+    while(true)
+    {
+        thread_sleep_for(500);
     }
+}   
