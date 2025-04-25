@@ -3,7 +3,7 @@
     "target_overrides": {
         "*": {
             "target.c_lib": "small",
-            "platform.stdio-baud-rate": 9600, //baud rate might need changing
+            "platform.stdio-baud-rate": 9600,
             "platform.stdio-buffered-serial": 1
         }
     }
