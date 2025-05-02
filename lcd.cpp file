@@ -144,3 +144,23 @@ int TextLCD::rows()
             return 2;
     }
 }
+
+void TextLCD::writeCustomCharacter(char custom[8], int index){
+    if (index > 7){
+        index = 7;
+    }
+    else if (index < 0){
+        index = 0;
+    }
+    else{
+        ;
+    }
+    //Sets Address Counter to CGRAM address (CGRAM1 through CGRAM8)
+    // 0b 0 1 AC5 AC4 AC3 AC2 AC1 AC0
+    writeCommand(0x40 + (index*8));
+
+
+    for(int i = 0; i < 8; i++){
+        writeData(custom[i]);
+    }
+}
