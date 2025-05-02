@@ -57,11 +57,14 @@ public:
      */
     void locate(int column, int row);
 
+    void writeCustomCharacter(char custom[8], int index);
+
     /** Clear the screen and locate to 0,0 */
     void cls();
 
     int rows();
     int columns();
+
 
 protected:
 
