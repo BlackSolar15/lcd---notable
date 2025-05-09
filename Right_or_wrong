@@ -1,0 +1,68 @@
+#include "mbed.h"
+#include "TextLCD.h"
+ 
+TextLCD lcd(D8, D9, D4, D5, D6, D7, TextLCD::LCD16x2); // rs, e, d4-d7
+ 
+#define BUTTON_PIN USER_BUTTON  // Replace with the actual pin if needed
+
+DigitalIn button1(D1);
+DigitalIn button2(D2);
+
+void printMessage(const char *message) {
+    lcd.cls();          // Clear LCD
+    lcd.locate(0, 1); 
+    lcd.printf("%s", message);
+}
+
+void Welldone() {
+    
+    // Define a smiley face as character #1
+    char smileyFaceChar[8] = {0x00, 0x00, 0x0A, 0x00, 0x11, 0x0E, 0x00, 0x00};
+    int index = 1;
+    lcd.writeCustomCharacter(smileyFaceChar, 1);
+
+    lcd.cls();
+    lcd.locate(0, 1);
+    lcd.printf("Well done");
+    lcd.locate(14,1);
+    lcd.printf("%c", (char)1);
+    thread_sleep_for(1000);
+    };
+
+void Wrong() {
+    
+    char SadFaceChar[8] = {0x00, 0x00, 0x0A, 0x00, 0x0E, 0x11, 0x00, 0x00};
+    int index = 2;
+    lcd.writeCustomCharacter(SadFaceChar, 2);
+
+    lcd.cls();
+    lcd.locate(0, 1);
+    lcd.printf("Wrong");
+    lcd.locate(14,1);
+    lcd.printf("%c", (char)2);
+    thread_sleep_for(1000);
+    };
+
+int main() {
+    lcd.cls();
+    lcd.locate(0, 0);
+    lcd.printf("Press left");
+    button1.mode(PullUp);
+    button2.mode(PullUp);
+    while(true)
+    {
+        if(button1==0){
+        printMessage("Aaannnddd");
+        thread_sleep_for(1000);
+        lcd.cls();
+        Welldone();
+        }
+
+        if(button2==0){
+        printMessage("Aaannnddd");
+        thread_sleep_for(1000);
+        lcd.cls();
+        Wrong();
+        }
+    }
+}
