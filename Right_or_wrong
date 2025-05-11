@@ -2,7 +2,10 @@
 #include "TextLCD.h"
  
 TextLCD lcd(D8, D9, D4, D5, D6, D7, TextLCD::LCD16x2); // rs, e, d4-d7
- 
+
+UnbufferedSerial pc(USBTX, USBRX, 14400); //USB serial to computer
+unsigned char myChar;
+
 #define BUTTON_PIN USER_BUTTON  // Replace with the actual pin if needed
 
 DigitalIn button1(D1);
@@ -24,6 +27,8 @@ void Welldone() {
     lcd.cls();
     lcd.locate(0, 1);
     lcd.printf("Well done");
+    myChar=13;
+    pc.write(&myChar,1); //pd outputs sound for 'correct'
     lcd.locate(14,1);
     lcd.printf("%c", (char)1);
     thread_sleep_for(1000);
@@ -38,6 +43,8 @@ void Wrong() {
     lcd.cls();
     lcd.locate(0, 1);
     lcd.printf("Wrong");
+    myChar=13;
+    pc.write(&myChar,1); //pd outputs sound for 'incorrect'
     lcd.locate(14,1);
     lcd.printf("%c", (char)2);
     thread_sleep_for(1000);
